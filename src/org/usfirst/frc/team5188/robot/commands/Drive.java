@@ -21,7 +21,7 @@ public class Drive extends Command {
 		double turn = Robot.oi.drive.getAxis(OI.Axis.RX);
 		
 		//checks if shifter is pressed
-		double shifter = Robot.oi.drive.getRawButton(OI.Buttons.R) == false ? 1 : .5;
+		double shifter = Robot.oi.drive.getRawButton(OI.Buttons.R) == true ? .5 : 1;
 		
 		//init drive variables
 		double lDrive;
@@ -43,7 +43,7 @@ public class Drive extends Command {
 		}
 
 		//ACTUAL DRIVE COMMAND
-		Robot.driveTrain.drive(lDrive, rDrive, strafe * .8);
+		Robot.driveTrain.drive(lDrive, rDrive, strafe * .4);//was .8
 	}
 
 	public void end() {

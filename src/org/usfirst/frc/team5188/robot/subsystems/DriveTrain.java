@@ -60,8 +60,8 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void smartDashboard() {
-		SmartDashboard.putNumber("DriveTrain Left", leftDrive1.get());
-		SmartDashboard.putNumber("DriveTrain Right", -rightDrive1.get());
+//		SmartDashboard.putNumber("DriveTrain Left", leftDrive1.get());
+//		SmartDashboard.putNumber("DriveTrain Right", -rightDrive1.get());
 //		SmartDashboard.putNumber("DriveTrain Gyro", RobotMap.gyro.getAngle());
 	}
 }
