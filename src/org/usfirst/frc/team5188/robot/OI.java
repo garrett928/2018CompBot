@@ -2,7 +2,10 @@ package org.usfirst.frc.team5188.robot;
 
 
 
+import org.usfirst.frc.team5188.robot.commands.ElevatorRaiseTo;
+
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,7 +69,9 @@ public class OI {
 		drive = new SuperJoystickPlus(Controller.DRIVE);
 		operator = new SuperJoystickPlus(Controller.OPERATOR);
 		
-		
+		JoystickButton goToSwitch = new JoystickButton(drive, OI.Buttons.A);
+		goToSwitch.whenPressed(new ElevatorRaiseTo(36));
+
 		
 
 		SmartDashboard.putData(Scheduler.getInstance());

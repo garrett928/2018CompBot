@@ -1,9 +1,9 @@
 
 package org.usfirst.frc.team5188.robot;
 
-import org.usfirst.frc.team5188.robot.commands.Baseline;
+import org.usfirst.frc.team5188.robot.commands.ElevatorRaiseLower;
+import org.usfirst.frc.team5188.robot.commands.ElevatorRaiseTo;
 import org.usfirst.frc.team5188.robot.commands.NullCommand;
-import org.usfirst.frc.team5188.robot.commands.Switch;
 import org.usfirst.frc.team5188.robot.commands.AutoPaths.Base1;
 import org.usfirst.frc.team5188.robot.commands.AutoPaths.CLSW;
 import org.usfirst.frc.team5188.robot.commands.AutoPaths.CRSW;
@@ -15,6 +15,8 @@ import org.usfirst.frc.team5188.robot.commands.DriverStations.DS1;
 import org.usfirst.frc.team5188.robot.commands.DriverStations.DS2;
 import org.usfirst.frc.team5188.robot.commands.DriverStations.DS3;
 import org.usfirst.frc.team5188.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5188.robot.subsystems.Elevator;
+import org.usfirst.frc.team5188.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,6 +31,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveTrain driveTrain;
+	public static Intake intake;
+	public static Elevator elevator;
+
 
 	//init auto choosers 
 	SendableChooser<Command> driverStations = new SendableChooser<>();
@@ -109,36 +114,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		driverStationPos = driverStations.getSelected().getName();
-		selectedAuto = autoOptions.getSelected(); 
-		SmartDashboard.putBoolean(BASE1, false);
-		SmartDashboard.putBoolean(SWR, false);
-		SmartDashboard.putBoolean(SWL, false);
-		SmartDashboard.putBoolean(SCR, false);
-		SmartDashboard.putBoolean(SCL, false);
-		SmartDashboard.putBoolean(CRSW, false);
-		SmartDashboard.putBoolean(CLSW, false);
-
 		
-		if(selectedAuto.getName().equals(BASE1)) SmartDashboard.putBoolean(BASE1, true);
-		if(selectedAuto.getName().equals(SWR)) SmartDashboard.putBoolean(SWR, true);
-		if(selectedAuto.getName().equals(SWL)) SmartDashboard.putBoolean(SWL, true);
-		if(selectedAuto.getName().equals(SCR)) SmartDashboard.putBoolean(SCR, true);
-		if(selectedAuto.getName().equals(SCL)) SmartDashboard.putBoolean(SCL, true);
-		if(selectedAuto.getName().equals(CLSW)) SmartDashboard.putBoolean(CLSW, true);
-		if(selectedAuto.getName().equals(CRSW)) SmartDashboard.putBoolean(CRSW, true);
-
-
-		SmartDashboard.putBoolean(DS1, false);
-		SmartDashboard.putBoolean(DS2, false);
-		SmartDashboard.putBoolean(DS3, false);
-		
-		System.out.println(driverStationPos.equals("DS3"));
-		if(driverStationPos.equals("DS1")) SmartDashboard.putBoolean(DS1, true);
-		if(driverStationPos.equals("DS2")) SmartDashboard.putBoolean(DS2, true);
-		if(driverStationPos.equals("DS3")) SmartDashboard.putBoolean(DS3, true);
 		
 		Scheduler.getInstance().run();
+		smartDashboard();
 	}
 
 	
@@ -180,6 +159,18 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		
+//
+//		if(Robot.oi.operator.getRawButton(OI.Buttons.A)) {
+//			Scheduler.getInstance().add(new ElevatorRaiseTo(36));
+//			
+//		}
+//		
+//		
+//		if(Math.abs(Robot.oi.operator.getAxis(OI.Axis.LY)) > 0) {
+//			Scheduler.getInstance().add(new ElevatorRaiseLower());
+//		}
+		
 		smartDashboard();
 		Scheduler.getInstance().run();
 	}
@@ -188,11 +179,39 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		smartDashboard();
-		LiveWindow.run();
 	}
 
 	public void smartDashboard() {
-		//driveTrain.smartDashboard();
+		SmartDashboard.putData(Scheduler.getInstance());
+		
+		driverStationPos = driverStations.getSelected().getName();
+		selectedAuto = autoOptions.getSelected(); 
+		SmartDashboard.putBoolean(BASE1, false);
+		SmartDashboard.putBoolean(SWR, false);
+		SmartDashboard.putBoolean(SWL, false);
+		SmartDashboard.putBoolean(SCR, false);
+		SmartDashboard.putBoolean(SCL, false);
+		SmartDashboard.putBoolean(CRSW, false);
+		SmartDashboard.putBoolean(CLSW, false);
+
+		
+		if(selectedAuto.getName().equals(BASE1)) SmartDashboard.putBoolean(BASE1, true);
+		if(selectedAuto.getName().equals(SWR)) SmartDashboard.putBoolean(SWR, true);
+		if(selectedAuto.getName().equals(SWL)) SmartDashboard.putBoolean(SWL, true);
+		if(selectedAuto.getName().equals(SCR)) SmartDashboard.putBoolean(SCR, true);
+		if(selectedAuto.getName().equals(SCL)) SmartDashboard.putBoolean(SCL, true);
+		if(selectedAuto.getName().equals(CLSW)) SmartDashboard.putBoolean(CLSW, true);
+		if(selectedAuto.getName().equals(CRSW)) SmartDashboard.putBoolean(CRSW, true);
+
+
+		SmartDashboard.putBoolean(DS1, false);
+		SmartDashboard.putBoolean(DS2, false);
+		SmartDashboard.putBoolean(DS3, false);
+		
+		System.out.println(driverStationPos.equals("DS3"));
+		if(driverStationPos.equals("DS1")) SmartDashboard.putBoolean(DS1, true);
+		if(driverStationPos.equals("DS2")) SmartDashboard.putBoolean(DS2, true);
+		if(driverStationPos.equals("DS3")) SmartDashboard.putBoolean(DS3, true);
 	}
 
 	/** Prevent button creep */
